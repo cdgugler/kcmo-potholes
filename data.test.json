@@ -1,0 +1,72 @@
+[
+  {
+    "xcoordinate": "-94.540011",
+    "zip_code": "64132",
+    "days_open": "0",
+    "type": "Pothole",
+    "ycoordinate": "38.992279",
+    "case_id": "2020137623",
+    "creation_year": "2020",
+    "source": "PHONE",
+    "category": "Streets / Roadways / Alleys",
+    "work_group": "Public Works-Street and Traffic-District 3",
+    "request_type": "Streets / Roadways / Alleys-Pothole-District 3",
+    "department": "Public Works",
+    "creation_time": "01:14 PM",
+    "case_url": {
+      "url": "http://city.kcmo.org/kc/ActionCenterRequest/CaseInfo.aspx?CaseID=2020137623"
+    },
+    "street_address": "7342 Norton Ave",
+    "police_district": "Metro",
+    "detail": "District 3",
+    "creation_month": "10",
+    "address_with_geocode": {
+      "latitude": "38.992279",
+      "human_address": "{\"address\": \"7342 Norton Ave\", \"city\": \"\", \"state\": \"\", \"zip\": \"64132\"}",
+      "needs_recoding": false,
+      "longitude": "-94.540011"
+    },
+    "creation_date": "2020-10-20T00:00:00.000",
+    "status": "OPEN",
+    "exceeded_est_timeframe": "N",
+    "county": "Jackson",
+    "neighborhood": "Noble And Gregory Ridge",
+    "council_district": "5",
+    "parcel_id_no": "4282"
+  },
+  {
+    "xcoordinate": "-94.58329",
+    "zip_code": "64112",
+    "days_open": "0",
+    "type": "Pothole",
+    "ycoordinate": "39.040022",
+    "case_id": "2020137670",
+    "creation_year": "2020",
+    "source": "EMAIL",
+    "category": "Streets / Roadways / Alleys",
+    "work_group": "Public Works-Street and Traffic-District 3",
+    "request_type": "Streets / Roadways / Alleys-Pothole-District 3",
+    "department": "Public Works",
+    "creation_time": "02:29 PM",
+    "case_url": {
+      "url": "http://city.kcmo.org/kc/ActionCenterRequest/CaseInfo.aspx?CaseID=2020137670"
+    },
+    "street_address": "4800 Oak St",
+    "police_district": "Metro",
+    "detail": "District 3",
+    "creation_month": "10",
+    "address_with_geocode": {
+      "latitude": "39.040022",
+      "human_address": "{\"address\": \"4800 Oak St\", \"city\": \"\", \"state\": \"\", \"zip\": \"64112\"}",
+      "needs_recoding": false,
+      "longitude": "-94.58329"
+    },
+    "creation_date": "2020-10-20T00:00:00.000",
+    "status": "OPEN",
+    "exceeded_est_timeframe": "N",
+    "county": "Jackson",
+    "neighborhood": "Park Central-Research Park",
+    "council_district": "4",
+    "parcel_id_no": "139993"
+  }
+]
