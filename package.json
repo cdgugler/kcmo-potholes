@@ -1,35 +1,43 @@
 {
-  "name": "kcmo-potholes",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cdgugler/kcmo-potholes.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cdgugler/kcmo-potholes/issues"
-  },
-  "homepage": "https://github.com/cdgugler/kcmo-potholes#readme",
-  "jest": {
-    "setupFilesAfterEnv": [
-      "jest-extended"
-    ]
-  },
-  "dependencies": {
-    "date-fns": "^2.16.1",
-    "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "jest": "^26.6.0",
-    "jest-extended": "^0.11.5"
-  }
+    "name": "kcmo-potholes",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cdgugler/kcmo-potholes.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/cdgugler/kcmo-potholes/issues"
+    },
+    "homepage": "https://github.com/cdgugler/kcmo-potholes#readme",
+    "jest": {
+        "setupFilesAfterEnv": [
+            "jest-extended"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    },
+    "dependencies": {
+        "date-fns": "^2.16.1",
+        "dotenv": "^8.2.0",
+        "node-fetch": "^2.6.1",
+        "prettier": "^2.1.2"
+    },
+    "devDependencies": {
+        "husky": "^4.3.0",
+        "jest": "^26.6.0",
+        "jest-extended": "^0.11.5",
+        "pretty-quick": "^3.1.0"
+    }
 }
