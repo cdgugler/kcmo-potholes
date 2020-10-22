@@ -1,0 +1,8 @@
+version: '2'
+services:
+    app:
+        image: node:8.2.1
+        hostname: node-app
+        volumes:
+            - ./app:/usr/src/app
+        command: ['node', '/usr/src/app/index.js']

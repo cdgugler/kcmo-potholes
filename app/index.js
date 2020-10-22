@@ -2,8 +2,13 @@ require('dotenv').config();
 const path = require('path');
 const fetch = require('node-fetch');
 const Twitter = require('twitter-lite');
-const { logger } = require('./logger');
-const { createApiUrl, randomNumber, minutesToMs, hoursToMs } = require('./lib');
+const { logger } = require('./lib/logger');
+const {
+    createApiUrl,
+    randomNumber,
+    minutesToMs,
+    hoursToMs,
+} = require('./lib/lib');
 const {
     extractData,
     loadDataFile,
@@ -11,8 +16,8 @@ const {
     mergeData,
     removeOldCases,
     setCasePosted,
-} = require('./data');
-const { getTweet } = require('./tweet');
+} = require('./lib/data');
+const { getTweet } = require('./lib/tweet');
 
 const DATA_FILE_NAME = 'pothole_data.json';
 const DATA_FILE_PATH = path.join(__dirname, DATA_FILE_NAME);
@@ -41,7 +46,6 @@ async function updateCases() {
     const newCases = await fetchCases();
     cases = removeOldCases(mergeData(cases, newCases));
     writeDataFile(DATA_FILE_PATH, cases);
-    console.log('Updated');
     logger.info('Cases updated');
 
     setTimeout(updateCases, hoursToMs(12));

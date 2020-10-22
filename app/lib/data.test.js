@@ -7,7 +7,7 @@ const {
     setCasePosted,
 } = require('./data');
 const path = require('path');
-const testData = require('./data.test.json');
+const testData = require('../../data.test.json');
 const { unlinkSync } = require('fs');
 
 describe('extractData', () => {
