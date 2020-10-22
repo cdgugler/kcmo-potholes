@@ -31,6 +31,7 @@ async function updateCases() {
     const newCases = await fetchCases()
     cases = removeOldCases(mergeData(cases, newCases))
     writeDataFile(DATA_FILE_PATH, cases)
+    console.log('Cases updated')
 
     setTimeout(updateCases, hoursToMs(12))
 }
@@ -49,7 +50,22 @@ function startTweeting() {
     setTimeout(startTweeting, minutesToMs(randomNumber(35, 65)))
 }
 
+function envVarsSet() {
+    let isSet = true
+
+    if (!process.env.OPENDATA_TOKEN) {
+        console.error('OPENDATA_TOKEN not set.')
+        isSet = false
+    }
+
+    return isSet
+}
+
 async function start() {
+    if (!envVarsSet()) {
+        return
+    }
+
     const cases = JSON.parse(loadDataFile(DATA_FILE_PATH))
     updateCases()
 
