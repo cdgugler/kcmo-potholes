@@ -9,4 +9,5 @@ node_modules/
 .env
 .env.test
 
+*-audit.json
 pothole_data.json
