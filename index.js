@@ -9,6 +9,7 @@ const {
     mergeData,
     removeOldCases,
 } = require('./data')
+const { getTweet } = require('./tweet')
 
 const DATA_FILE_NAME = 'pothole_data.json'
 const DATA_FILE_PATH = path.join(__dirname, DATA_FILE_NAME)
@@ -36,7 +37,7 @@ async function updateCases() {
     setTimeout(updateCases, hoursToMs(12))
 }
 
-function startTweeting() {
+function postTweet() {
     // TODO: Pick first pothole that hasn't posted yet (order by date)
     // Tweet: street address and GPS Coords
     // Tweet format 'Pothole reported at <address> openstreetmap link';
@@ -47,7 +48,9 @@ function startTweeting() {
         return
     }
 
-    setTimeout(startTweeting, minutesToMs(randomNumber(35, 65)))
+    console.log(getTweet(cases))
+
+    setTimeout(postTweet, minutesToMs(randomNumber(35, 65)))
 }
 
 function envVarsSet() {
@@ -67,9 +70,9 @@ async function start() {
     }
 
     const cases = JSON.parse(loadDataFile(DATA_FILE_PATH))
-    updateCases()
+    await updateCases()
 
-    startTweeting()
+    postTweet()
 }
 
 start().catch((error) => console.error(error.stack))
