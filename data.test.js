@@ -4,14 +4,15 @@ const {
     writeDataFile,
     mergeData,
     removeOldCases,
-} = require('./data')
-const path = require('path')
-const testData = require('./data.test.json')
-const { unlinkSync } = require('fs')
+    setCasePosted,
+} = require('./data');
+const path = require('path');
+const testData = require('./data.test.json');
+const { unlinkSync } = require('fs');
 
 describe('extractData', () => {
     test('returns only id, address, lat, long, created, status, and posted properties', () => {
-        const filteredData = extractData(testData)
+        const filteredData = extractData(testData);
         expect(filteredData).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
@@ -24,54 +25,54 @@ describe('extractData', () => {
                     status: 'OPEN',
                 }),
             ])
-        )
-    })
-})
+        );
+    });
+});
 
 describe('loadDataFile', () => {
     test("creates file with empty array if path doesn't exist", () => {
-        const fileName = path.join(__dirname, 'temporary_test_data_file.json')
-        const fileContents = loadDataFile(fileName)
+        const fileName = path.join(__dirname, 'temporary_test_data_file.json');
+        const fileContents = loadDataFile(fileName);
 
-        expect(fileContents).toEqual('[]')
+        expect(fileContents).toEqual('[]');
 
-        unlinkSync(fileName)
-    })
-})
+        unlinkSync(fileName);
+    });
+});
 
 describe('mergeData', () => {
     test('adds new cases to array', () => {
-        const currentData = [{ id: '2020137623' }]
-        const newData = [{ id: '2020137624' }]
-        const expectedResult = [{ id: '2020137623' }, { id: '2020137624' }]
+        const currentData = [{ id: '2020137623' }];
+        const newData = [{ id: '2020137624' }];
+        const expectedResult = [{ id: '2020137623' }, { id: '2020137624' }];
 
-        const result = mergeData(currentData, newData)
+        const result = mergeData(currentData, newData);
 
-        expect(result).toIncludeSameMembers(expectedResult)
-    })
+        expect(result).toIncludeSameMembers(expectedResult);
+    });
     test('removes duplicate cases by id', () => {
-        const currentData = [{ id: '2020137623' }, { id: '2020137624' }]
-        const newData = [{ id: '2020137624' }, { id: '2020137625' }]
+        const currentData = [{ id: '2020137623' }, { id: '2020137624' }];
+        const newData = [{ id: '2020137624' }, { id: '2020137625' }];
         const expectedResult = [
             { id: '2020137623' },
             { id: '2020137624' },
             { id: '2020137625' },
-        ]
+        ];
 
-        const result = mergeData(currentData, newData)
+        const result = mergeData(currentData, newData);
 
-        expect(result).toIncludeSameMembers(expectedResult)
-    })
+        expect(result).toIncludeSameMembers(expectedResult);
+    });
     test('handles empty currentData', () => {
-        const currentData = []
-        const newData = [{ id: '2020137624' }, { id: '2020137625' }]
-        const expectedResult = [{ id: '2020137624' }, { id: '2020137625' }]
+        const currentData = [];
+        const newData = [{ id: '2020137624' }, { id: '2020137625' }];
+        const expectedResult = [{ id: '2020137624' }, { id: '2020137625' }];
 
-        const result = mergeData(currentData, newData)
+        const result = mergeData(currentData, newData);
 
-        expect(result).toIncludeSameMembers(expectedResult)
-    })
-})
+        expect(result).toIncludeSameMembers(expectedResult);
+    });
+});
 
 describe('removeOldCases', () => {
     test('removes cases older than 30 days', () => {
@@ -84,20 +85,20 @@ describe('removeOldCases', () => {
                 created: '2020-10-18T00:00:00.000',
                 posted: false,
             },
-        ]
+        ];
 
         const expectedResult = [
             {
                 created: '2020-10-18T00:00:00.000',
                 posted: false,
             },
-        ]
+        ];
 
-        const currentDate = new Date('2020-10-31')
+        const currentDate = new Date('2020-10-31');
         expect(removeOldCases(testCases, currentDate)).toIncludeSameMembers(
             expectedResult
-        )
-    })
+        );
+    });
 
     test('only removes cases older than 30 days if posted already', () => {
         const testCases = [
@@ -109,7 +110,7 @@ describe('removeOldCases', () => {
                 created: '2020-10-18T00:00:00.000',
                 posted: false,
             },
-        ]
+        ];
 
         const expectedResult = [
             {
@@ -120,11 +121,29 @@ describe('removeOldCases', () => {
                 created: '2020-10-18T00:00:00.000',
                 posted: false,
             },
-        ]
+        ];
 
-        const currentDate = new Date('2020-10-31')
+        const currentDate = new Date('2020-10-31');
         expect(removeOldCases(testCases, currentDate)).toIncludeSameMembers(
             expectedResult
-        )
-    })
-})
+        );
+    });
+});
+
+describe('setCasePosted', () => {
+    test('updates case within data to posted status', () => {
+        const cases = [
+            { id: '2020137623', posted: true },
+            { id: '2020137624', posted: false },
+            { id: '2020137625', posted: false },
+        ];
+        const expectedResult = [
+            { id: '2020137623', posted: true },
+            { id: '2020137624', posted: true },
+            { id: '2020137625', posted: false },
+        ];
+        const updatedCases = setCasePosted('2020137624', cases);
+
+        expect(updatedCases).toIncludeSameMembers(expectedResult);
+    });
+});

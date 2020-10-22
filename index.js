@@ -1,6 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const fetch = require('node-fetch');
+const Twitter = require('twitter-lite');
 const { logger } = require('./logger');
 const { createApiUrl, randomNumber, minutesToMs, hoursToMs } = require('./lib');
 const {
@@ -9,6 +10,7 @@ const {
     writeDataFile,
     mergeData,
     removeOldCases,
+    setCasePosted,
 } = require('./data');
 const { getTweet } = require('./tweet');
 
@@ -19,6 +21,12 @@ const FETCH_CONFIG = {
     method: 'GET',
     headers: { 'X-App-Token': process.env.OPENDATA_TOKEN },
 };
+const twitterClient = new Twitter({
+    consumer_key: process.env.TWITTER_API_KEY,
+    consumer_secret: process.env.TWITTER_API_SECRET_KEY,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+    access_token_secret: process.env.TWITTER_ACCESS_SECRET,
+});
 
 let cases = [];
 
@@ -33,21 +41,28 @@ async function updateCases() {
     const newCases = await fetchCases();
     cases = removeOldCases(mergeData(cases, newCases));
     writeDataFile(DATA_FILE_PATH, cases);
+    console.log('Updated');
     logger.info('Cases updated');
 
     setTimeout(updateCases, hoursToMs(12));
 }
 
-function postTweet() {
-    // set it to posted
-
+async function postTweet() {
     const currentHour = new Date().getHours();
     if (currentHour < 8 || currentHour > 22) {
         return;
     }
 
     const caseToTweet = getTweet(cases);
+    const tweet = await twitterClient.post('statuses/update', {
+        status: caseToTweet.text,
+    });
+
+    logger.info(tweet);
     logger.info(caseToTweet);
+
+    cases = setCasePosted(caseToTweet.id, cases);
+    writeDataFile(DATA_FILE_PATH, cases);
 
     setTimeout(postTweet, minutesToMs(randomNumber(35, 65)));
 }
@@ -60,6 +75,16 @@ function envVarsSet() {
         isSet = false;
     }
 
+    if (
+        !process.env.TWITTER_API_KEY ||
+        !process.env.TWITTER_API_SECRET_KEY ||
+        !process.env.TWITTER_ACCESS_TOKEN ||
+        !process.env.TWITTER_ACCESS_SECRET
+    ) {
+        console.error('Twitter API keys not set.');
+        isSet = false;
+    }
+
     return isSet;
 }
 
@@ -68,7 +93,7 @@ async function start() {
         return;
     }
 
-    const cases = JSON.parse(loadDataFile(DATA_FILE_PATH));
+    cases = JSON.parse(loadDataFile(DATA_FILE_PATH));
     await updateCases();
 
     postTweet();

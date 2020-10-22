@@ -1,5 +1,5 @@
-const { differenceInCalendarDays } = require('date-fns')
-const fs = require('fs')
+const { differenceInCalendarDays } = require('date-fns');
+const fs = require('fs');
 
 function extractData(data) {
     return data.map((d) => ({
@@ -10,16 +10,16 @@ function extractData(data) {
         created: d.creation_date,
         status: d.status,
         posted: false,
-    }))
+    }));
 }
 
 function mergeData(currentData, newData) {
-    const caseIds = currentData.map((data) => data.id)
+    const caseIds = currentData.map((data) => data.id);
     const filtered = newData.filter((data) => {
-        return !caseIds.includes(data.id)
-    })
+        return !caseIds.includes(data.id);
+    });
 
-    return [...currentData, ...filtered]
+    return [...currentData, ...filtered];
 }
 
 function removeOldCases(data, currentDate = new Date()) {
@@ -27,45 +27,55 @@ function removeOldCases(data, currentDate = new Date()) {
         const diff = differenceInCalendarDays(
             currentDate,
             new Date(currentCase.created)
-        )
+        );
 
         if (diff < 30) {
-            return true
+            return true;
         }
 
         if (diff >= 30 && !currentCase.posted) {
-            return true
+            return true;
         }
 
-        return false
-    })
+        return false;
+    });
 }
 
 function loadDataFile(filePath) {
     if (!fs.existsSync(filePath)) {
         try {
-            fs.writeFileSync(filePath, '[]')
+            fs.writeFileSync(filePath, '[]');
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
     try {
-        return fs.readFileSync(filePath, 'utf8')
+        return fs.readFileSync(filePath, 'utf8');
     } catch (err) {
-        console.error(err)
-        return false
+        console.error(err);
+        return false;
     }
 }
 
 function writeDataFile(filePath, data) {
     try {
-        fs.writeFileSync(filePath, JSON.stringify(data))
+        fs.writeFileSync(filePath, JSON.stringify(data));
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
 
-    return data
+    return data;
+}
+
+function setCasePosted(caseId, cases) {
+    return cases.map((c) => {
+        if (c.id === caseId) {
+            c.posted = true;
+        }
+
+        return c;
+    });
 }
 
 module.exports = {
@@ -74,4 +84,5 @@ module.exports = {
     loadDataFile,
     writeDataFile,
     removeOldCases,
-}
+    setCasePosted,
+};
