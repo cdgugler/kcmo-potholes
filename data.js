@@ -1,3 +1,4 @@
+const { differenceInCalendarDays } = require('date-fns');
 const fs = require('fs');
 
 function extractData(data) {
@@ -23,6 +24,22 @@ function mergeData(currentData, newData) {
         ...currentData,
         ...filtered
     ];
+}
+
+function removeOldCases(data, currentDate = new Date()) {
+    return data.filter(currentCase => {
+        const diff = differenceInCalendarDays(currentDate, new Date(currentCase.created));
+
+        if (diff < 30) {
+            return true;
+        }
+
+        if (diff >= 30 && !currentCase.posted) {
+            return true;
+        }
+
+        return false;
+    });
 }
 
 function loadDataFile (filePath) {
@@ -56,5 +73,6 @@ module.exports = {
     extractData,
     mergeData,
     loadDataFile,
-    writeDataFile
+    writeDataFile,
+    removeOldCases
 };

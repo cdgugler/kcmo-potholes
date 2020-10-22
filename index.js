@@ -2,7 +2,7 @@ require('dotenv').config();
 const path = require('path');
 const fetch = require('node-fetch');
 const { createApiUrl, randomNumber, minutesToMs, hoursToMs } = require('./lib');
-const { extractData, loadDataFile, writeDataFile, mergeData } = require('./data');
+const { extractData, loadDataFile, writeDataFile, mergeData, removeOldCases } = require('./data');
 
 const DATA_FILE_NAME = "pothole_data.json";
 const DATA_FILE_PATH = path.join(__dirname, DATA_FILE_NAME);
@@ -25,9 +25,8 @@ async function fetchCases() {
 }
 
 async function updateCases() {
-    // TODO: remove cases older than 30 days that have posted
     const newCases = await fetchCases();
-    cases = mergeData(cases, newCases);
+    cases = removeOldCases(mergeData(cases, newCases));
     writeDataFile(DATA_FILE_PATH, cases);
 
     setTimeout(updateCases, hoursToMs(12));
@@ -35,7 +34,8 @@ async function updateCases() {
 
 function startTweeting() {
     // TODO: Pick first pothole that hasn't posted yet (order by date)
-    // Tweet it out: street address and GPS Coords
+    // Tweet: street address and GPS Coords
+    // Tweet format 'Pothole reported at <address> openstreetmap link';
     // set it to posted
 
     const currentHour = new Date().getHours();
