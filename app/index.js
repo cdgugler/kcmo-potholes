@@ -1,4 +1,4 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
 const path = require('path');
 const fetch = require('node-fetch');
 const Twitter = require('twitter-lite');
@@ -18,6 +18,7 @@ const {
     setCasePosted,
 } = require('./lib/data');
 const { getTweet } = require('./lib/tweet');
+const dotfile = dotenv.config({ path: path.join(__dirname, '.env') });
 
 const DATA_FILE_NAME = 'pothole_data.json';
 const DATA_FILE_PATH = path.join(__dirname, DATA_FILE_NAME);
