@@ -55,6 +55,7 @@ async function updateCases() {
 async function postTweet() {
     const currentHour = new Date().getHours();
     if (currentHour < 8 || currentHour > 22) {
+        logger.info(`Not posting at ${currentHour}`);
         setTimeout(postTweet, minutesToMs(randomNumber(35, 65)));
         return;
     }
