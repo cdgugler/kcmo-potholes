@@ -63,11 +63,16 @@ async function postTweet() {
     }
 
     const caseToTweet = getTweet(cases);
-    const tweet = await twitterClient.post('statuses/update', {
-        status: caseToTweet.text,
-    });
 
-    logger.info(tweet);
+    try {
+        const tweet = await twitterClient.post('statuses/update', {
+            status: caseToTweet.text,
+        });
+        logger.info(tweet);
+    } catch (e) {
+        logger.info(e);
+    }
+
     logger.info(caseToTweet);
 
     cases = setCasePosted(caseToTweet.id, cases);
@@ -108,8 +113,7 @@ async function start() {
     logger.info('Loaded data file');
 
     await updateCases();
-
-    postTweet();
+    await postTweet();
 }
 
 start().catch((error) => console.error(error.stack));
