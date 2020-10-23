@@ -1,9 +1,10 @@
 const winston = require('winston');
 const { printf } = winston.format;
+const path = require('path');
 require('winston-daily-rotate-file');
 
 const transport = new winston.transports.DailyRotateFile({
-    filename: 'history-%DATE%.log',
+    filename: path.join(__dirname, '../history-%DATE%.log'),
     datePattern: 'YYYY-MM-DD-HH',
     zippedArchive: true,
     maxSize: '5m',

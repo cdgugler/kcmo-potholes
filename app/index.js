@@ -50,6 +50,8 @@ async function updateCases() {
     logger.info('Cases updated');
 
     setTimeout(updateCases, hoursToMs(12));
+
+    return;
 }
 
 async function postTweet() {
@@ -104,6 +106,7 @@ async function start() {
 
     cases = JSON.parse(loadDataFile(DATA_FILE_PATH));
     logger.info('Loaded data file');
+
     await updateCases();
 
     postTweet();

@@ -1,7 +1,7 @@
 version: '2'
 services:
     app:
-        image: node:8.2.1
+        image: node:14.8.0
         hostname: node-app
         volumes:
             - ./app:/usr/src/app
