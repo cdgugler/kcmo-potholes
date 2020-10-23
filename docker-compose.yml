@@ -5,5 +5,4 @@ services:
         hostname: node-app
         volumes:
             - ./app:/usr/src/app
-            - ./app/.env:/usr/src/app/.env
         command: ['node', '/usr/src/app/index.js']
