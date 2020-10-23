@@ -1,6 +1,8 @@
 version: '2'
 services:
     app:
+        environment:
+            - TZ=America/Chicago
         image: node:14.8.0
         hostname: node-app
         volumes:
