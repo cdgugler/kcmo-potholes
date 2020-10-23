@@ -29,11 +29,11 @@ function removeOldCases(data, currentDate = new Date()) {
             new Date(currentCase.created)
         );
 
-        if (diff < 30) {
+        if (diff < 60) {
             return true;
         }
 
-        if (diff >= 30 && !currentCase.posted) {
+        if (diff >= 60 && !currentCase.posted) {
             return true;
         }
 
@@ -68,9 +68,9 @@ function writeDataFile(filePath, data) {
     return data;
 }
 
-function setCasePosted(caseId, cases) {
+function setCasePosted(currentCase, cases) {
     return cases.map((c) => {
-        if (c.id === caseId) {
+        if (c.id === currentCase.id || c.address === currentCase.address) {
             c.posted = true;
         }
 

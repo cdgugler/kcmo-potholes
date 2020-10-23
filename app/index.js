@@ -75,7 +75,7 @@ async function postTweet() {
 
     logger.info(caseToTweet);
 
-    cases = setCasePosted(caseToTweet.id, cases);
+    cases = setCasePosted(caseToTweet, cases);
     writeDataFile(DATA_FILE_PATH, cases);
 
     setTimeout(postTweet, minutesToMs(randomNumber(35, 65)));

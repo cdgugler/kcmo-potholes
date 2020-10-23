@@ -11,6 +11,7 @@ function getTweet(cases) {
     return {
         text: `Pothole reported at ${currentCase.address} ${mapLink}`,
         id: currentCase.id,
+        address: currentCase.address,
     };
 }
 
