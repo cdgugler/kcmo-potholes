@@ -63,7 +63,6 @@ async function postTweet() {
     }
 
     const caseToTweet = getTweet(cases);
-    console.log('Case to tweet: ', caseToTweet);
 
     if (caseToTweet) {
         try {
