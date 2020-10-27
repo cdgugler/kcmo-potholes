@@ -6,6 +6,11 @@ function getCase(cases) {
 function getTweet(cases) {
     const mapZoomLevel = 17;
     const currentCase = getCase(cases);
+
+    if (!currentCase) {
+        return false;
+    }
+
     const mapLink = `https://www.openstreetmap.org/?mlat=${currentCase.lat}&mlon=${currentCase.long}#map=${mapZoomLevel}/${currentCase.lat}/${currentCase.long}`;
 
     return {

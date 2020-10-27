@@ -33,7 +33,7 @@ describe('getCase', () => {
         );
     });
 
-    test('returns empty false if no unposted case available', () => {
+    test('getCase returns empty false if no unposted case available', () => {
         const data = [
             {
                 address: '1124 NE 97th Pl',
@@ -56,6 +56,31 @@ describe('getCase', () => {
         ];
 
         expect(getCase(data)).toEqual(false);
+    });
+
+    test('getTweet returns empty false if no unposted case available', () => {
+        const data = [
+            {
+                address: '1124 NE 97th Pl',
+                lat: '39.270306',
+                long: '-94.56589',
+                posted: true,
+            },
+            {
+                address: '1124 NE 97th Pl',
+                lat: '39.270306',
+                long: '-94.56589',
+                posted: true,
+            },
+            {
+                address: '1124 NE 97th Pl',
+                lat: '39.270306',
+                long: '-94.56589',
+                posted: true,
+            },
+        ];
+
+        expect(getTweet(data)).toEqual(false);
     });
 });
 

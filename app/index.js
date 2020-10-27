@@ -63,20 +63,25 @@ async function postTweet() {
     }
 
     const caseToTweet = getTweet(cases);
+    console.log('Case to tweet: ', caseToTweet);
 
-    try {
-        const tweet = await twitterClient.post('statuses/update', {
-            status: caseToTweet.text,
-        });
-        logger.info(tweet);
-    } catch (e) {
-        logger.info(e);
+    if (caseToTweet) {
+        try {
+            const tweet = await twitterClient.post('statuses/update', {
+                status: caseToTweet.text,
+            });
+            logger.info(tweet);
+        } catch (e) {
+            logger.info(e);
+        }
+
+        logger.info(caseToTweet);
+
+        cases = setCasePosted(caseToTweet, cases);
+        writeDataFile(DATA_FILE_PATH, cases);
+    } else {
+        logger.info('Skip - All cases posted');
     }
-
-    logger.info(caseToTweet);
-
-    cases = setCasePosted(caseToTweet, cases);
-    writeDataFile(DATA_FILE_PATH, cases);
 
     setTimeout(postTweet, minutesToMs(randomNumber(35, 65)));
 }
@@ -112,7 +117,7 @@ async function start() {
     cases = JSON.parse(loadDataFile(DATA_FILE_PATH));
     logger.info('Loaded data file');
 
-    await updateCases();
+    // await updateCases();
     await postTweet();
 }
 
