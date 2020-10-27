@@ -116,7 +116,7 @@ async function start() {
     cases = JSON.parse(loadDataFile(DATA_FILE_PATH));
     logger.info('Loaded data file');
 
-    // await updateCases();
+    await updateCases();
     await postTweet();
 }
 
